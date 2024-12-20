@@ -48,7 +48,9 @@ const weatherSlice = createSlice({
         state.data = action.payload;
         state.wind = action.payload.wind
         state.main = action.payload.main
-        state.weather = action.payload.weather
+        state.weather = action.payload.weather[0];
+        console.log(state.weather);
+        
         state.error = null;
       })
       .addCase(fetchWeather.rejected, (state, action) => {

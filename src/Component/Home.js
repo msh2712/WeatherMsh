@@ -48,12 +48,12 @@ function Home() {
                             </div>
                             <div className='sec' style={{position:"relative"}}>
                                 <b style={{ fontSize: "8rem", fontFamily: "cursive" }}>{(main.temp - 273.15).toFixed(0)}</b><sup  className='citys' style={{ fontSize: "2rem", marginBottom: "2.2rem" }}><span style={{ fontSize: "1.4rem", marginRight: "0.1rem", marginLeft:"0.2rem"}}>o</span>C</sup>
-                                   {wearher && weather[0].main == "Rain" ? <div className="large-device">
+                                    <div className="large-device">
                                        <model-viewer  src="rain_1.glb" auto-rotate style={{ width: '100%', height: '19vh' }}></model-viewer>
-                                   </div> : ''} 
+                                   </div>
                             </div>
                             <div className='thr'>
-                                <b className=''>{weather && weather[0].main}</b>
+                                <b className=''>{weather && weather.main}</b>
                             </div>
                         </div>
 
