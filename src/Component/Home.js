@@ -7,7 +7,8 @@ function Home() {
     const [ location , setLocation ] = useState('Mumbai')
     const dispatch = useDispatch()
     const  weatherdata = useSelector((state)=>state.user)
-    const visible = weatherdata.weatherData.visibility / 1000
+    const visible = 23000 / 1000
+    console.log(weatherdata);
     const feellike = weatherdata.weatherData.main.feels_like
     const inkls = Math.round(feellike - 273)
     const inkl = inkls.toFixed(0)
@@ -20,9 +21,11 @@ function Home() {
     const temp = weatherdata.weatherData.main.temp
     const temps = Math.round(temp - 273)
     var name = "Search"
+
+
     useEffect(()=>{
         dispatch(fetchWeather(location))
-    } ,[])
+    } ,[dispatch])
 
     const handleget = () => {
         dispatch(fetchWeather(location))
@@ -87,7 +90,7 @@ function Home() {
                                     <div className='col-5 vrs text-white'>
                                     <img src='./eye.png' style={{width:"28px", marginTop:"4px"}}></img>
                                         <h5>Visibility</h5>
-                                        <h3>{visible} Km</h3>
+                                        <h3>{visible && visible} Km</h3>
                                     </div>
                                 </div>
                                 <div className='v row'>
