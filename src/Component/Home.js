@@ -6,24 +6,14 @@ function Home() {
 
     const [ location , setLocation ] = useState('Mumbai')
     const dispatch = useDispatch()
-    const  weatherdata = useSelector((state)=>state.user)
-    const visible = 23000 / 1000
-    console.log(weatherdata);
-    const feellike = weatherdata.weatherData.main.feels_like
-    const inkls = Math.round(feellike - 273)
-    const inkl = inkls.toFixed(0)
-    const humiditys = weatherdata.weatherData.main.humidity
-    const clouds = weatherdata.weatherData.clouds.all
-    const winds= weatherdata.weatherData.wind.speed * 3.6
-    const winddata = winds.toFixed(0)
-    const windss = weatherdata.weatherData.weather
-    const message = windss[0].main
-    const temp = weatherdata.weatherData.main.temp
-    const temps = Math.round(temp - 273)
-    var name = "Search"
+    const  cloud = useSelector((state)=>state.user.cloud)
+    const  main = useSelector((state)=>state.user.main)
+    const  weather = useSelector((state)=>state.user.weather)
+    const  wind = useSelector((state)=>state.user.wind)
+    const  data = useSelector((state)=>state.user.data)
+    console.log(data)
 
-
-    useEffect(()=>{
+     useEffect(()=>{
         dispatch(fetchWeather(location))
     } ,[dispatch])
 
@@ -43,7 +33,7 @@ function Home() {
                         <div style={{ position: 'relative' }}>
                             <input className='inp' value={location} onChange={(e)=>setLocation(e.target.value)}></input>
                             <img src='./flying-airplane.gif' style={{ marginLeft: "20px", width:'35px', position:"absolute", right:"75px", top:"50px"}}></img>
-                            <button className='btns' onClick={()=>handleget()}>{name}</button>
+                            <button className='btns' onClick={()=>handleget()}>Search</button>
                         </div>
                     </div>
                     <div className="col-3 center">
@@ -53,17 +43,17 @@ function Home() {
                     <div className=' row secdiv'>
                         <div className='col-12 col-md-5 mt-4'>
                             <div className='fir ml-md-5'>
-                            <img src='./google-maps.png' style={{ marginLeft: "20px", width:'28px'}}></img>
-                                <span className='citys' style={{ marginLeft: "10px" }}>{weatherdata.weatherData.name}</span>
+                            <img src='./google-maps.png' style={{ marginLeft: "20px", width:'28px'}} alt='image'></img>
+                                <span className='citys' style={{ marginLeft: "10px" }}>{data && data.name}</span>
                             </div>
                             <div className='sec' style={{position:"relative"}}>
-                                <b style={{ fontSize: "8rem", fontFamily: "cursive" }}>{temps}</b><sup  className='citys' style={{ fontSize: "2rem", marginBottom: "2.2rem" }}><span style={{ fontSize: "1.4rem", marginRight: "0.1rem", marginLeft:"0.2rem"}}>o</span>C</sup>
-                                   {message == "Rain" ? <div className="large-device">
+                                <b style={{ fontSize: "8rem", fontFamily: "cursive" }}>{(main.temp - 273.15).toFixed(0)}</b><sup  className='citys' style={{ fontSize: "2rem", marginBottom: "2.2rem" }}><span style={{ fontSize: "1.4rem", marginRight: "0.1rem", marginLeft:"0.2rem"}}>o</span>C</sup>
+                                   {weather[0].main == "Rain" ? <div className="large-device">
                                        <model-viewer  src="rain_1.glb" auto-rotate style={{ width: '100%', height: '19vh' }}></model-viewer>
                                    </div> : ''} 
                             </div>
                             <div className='thr'>
-                                <b className=''>{message}</b>
+                                <b className=''>{weather && weather[0].main}</b>
                             </div>
                         </div>
 
@@ -71,38 +61,38 @@ function Home() {
                             <div className='row mt-4'>
                                 <div className='v row'>
                                     <div className='col-5 vrs text-white'>
-                                    <img src='./storm.png' style={{width:"26px", marginTop:"2px"}}></img>
+                                    <img src='./storm.png' style={{width:"26px", marginTop:"2px"}}  alt='image'></img>
                                         <h5>wind</h5>
-                                        <h3>{winddata} Km/h</h3>
+                                        <h3>{wind && wind.speed} Km/h</h3>
                                     </div>
                                     <div className='col-5 vrs text-white'>
-                                    <img src='./humidity.png' style={{width:"32px", marginTop:"2px"}}></img>
+                                    <img src='./humidity.png' style={{width:"32px", marginTop:"2px"}}  alt='image'></img>
                                         <h5>Humidity</h5>
-                                        <h3>{humiditys}%</h3>
+                                        <h3>{main && main.humidity}%</h3>
                                     </div>
                                 </div>
                                 <div className='v row'>
                                     <div className='col-5 vrs text-white'>
-                                    <img src='./barometer.png' style={{width:"40px", marginTop:"1px"}}></img>
+                                    <img src='./barometer.png' style={{width:"40px", marginTop:"1px"}}  alt='image'></img>
                                         <h5>Air Pressure</h5>
-                                        <h3>{weatherdata.weatherData.main.pressure} hPA</h3>
+                                        <h3>{main && main.pressure} hPA</h3>
                                     </div>
                                     <div className='col-5 vrs text-white'>
-                                    <img src='./eye.png' style={{width:"28px", marginTop:"4px"}}></img>
+                                    <img src='./eye.png' style={{width:"28px", marginTop:"4px"}}  alt='image'></img>
                                         <h5>Visibility</h5>
-                                        <h3>{visible && visible} Km</h3>
+                                        <h3>{data && data.visibility/1000} Km</h3>
                                     </div>
                                 </div>
                                 <div className='v row'>
                                     <div className='col-5 vrs text-white'>
-                                    <img src='./tempreature.png' style={{width:"28px", marginTop:"4px"}}></img>
+                                    <img src='./tempreature.png' style={{width:"28px", marginTop:"4px"}}  alt='image'></img>
                                     <h5>Feels Like</h5>
-                                        <h3>{inkl}<sup>o</sup>c</h3>
+                                        <h3>{main && (main.feels_like -273.15).toFixed(0)}<sup>o</sup>c</h3>
                                     </div>
                                     <div className='col-5 vrs text-white'>
                                         <img src='./cloudy.png' style={{width:"30px"}}></img>
                                         <h5>Cloudiness</h5>
-                                        <h3>{clouds}%</h3>
+                                        <h3>{cloud && cloud.all}%</h3>
                                     </div>
                                 </div>
                             </div>
